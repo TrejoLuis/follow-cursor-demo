@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import './App.css'
 
 function App () {
@@ -18,6 +18,22 @@ function App () {
     opacity: '0.8'
 
   }
+
+  useEffect(() => {
+    //create function to set coords
+    const supplyCoords = (event) => {
+      //clientX and clientY
+      setCursorCoords({x: event.clientX, y: event.clientY})
+    }
+    //check if enableTrack
+    if(enableTrack){
+      //add listener to get cursor coordenates
+      window.addEventListener('pointermove', supplyCoords)
+    }
+    //unsubscribe the listener
+    return () => window.removeEventListener('pointermove', supplyCoords)
+    //Each time enableTrack value changes, useEffect will trigger
+  },[enableTrack])
 
   return (
     <>
